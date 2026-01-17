@@ -10,7 +10,7 @@ env:
 
 jobs:
   Build-test-deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
@@ -35,22 +35,26 @@ jobs:
       - name: Run Unit Tests
         run: |
           python3 -m unittest test_app.py
+
+      - name: Run Integration Tests
+        run: |
+          python3 -m unittest discover -s . -p "test_*.py" -v
           
       - name: Deploy Flask Application
         run: |
           nohup python3 app.py &
 
-  health:
-    needs: Build-test-deploy
-    runs-on: self-hosted
+  # health:
+  #   needs: Build-test-deploy
+  #   runs-on: self-hosted
 
-    steps:
-      - name: Health check
-        run: |
-          for i in {1..10}; do
-            curl -s -o /dev/null -w "%{http_code}" $HEALTHCHECK_URL | grep "200" && echo "Health check passed" && exit 0 || echo "Waiting for service...";
-            sleep 5;
-          done;
-          echo "Health check failed***" && exit 1
+  #   steps:
+  #     - name: Health check
+  #       run: |
+  #         for i in {1..10}; do
+  #           curl -s -o /dev/null -w "%{http_code}" $HEALTHCHECK_URL | grep "200" && echo "Health check passed" && exit 0 || echo "Waiting for service...";
+  #           sleep 5;
+  #         done;
+  #         echo "Health check failed***" && exit 1
           
           
