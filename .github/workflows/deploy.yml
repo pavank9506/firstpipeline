@@ -1,4 +1,4 @@
-name: Deploy Flask App
+name: workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ env:
   HEALTHCHECK_URL: http://34.228.255.233:50000
 
 jobs:
-  Build-test-deploy:
+  workflow:
     runs-on: ubuntu-latest
 
     steps:
