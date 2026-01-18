@@ -66,8 +66,8 @@ jobs:
 
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
-      with:
-        cosign-release: 3.10.1
+      # with:
+        # cosign-release: 3.10.1
 
     - name: Clear sigstore cache
       run: rm -rf ~/.sigstore ~/.cache/sigstore
