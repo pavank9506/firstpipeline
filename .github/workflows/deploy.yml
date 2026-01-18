@@ -64,14 +64,18 @@ jobs:
     - name: Push Docker Image
       run: docker push pavan095/github_action_docker:latest
 
-    - name: Install Cosign
+    - name: Install cosign
       uses: sigstore/cosign-installer@v3
       with:
-        cosign-release: 'v2.0.0'
+        cosign-release: 'latest'
+
+    - name: Clear sigstore cache
+      run: rm -rf ~/.sigstore ~/.cache/sigstore
 
     - name: Sign Docker Image
       env:
         COSIGN_EXPERIMENTAL: 1
+        SIGSTORE_NO_CACHE: "true"
       run: |
         cosign sign --yes pavan095/github_action_docker:latest
 
