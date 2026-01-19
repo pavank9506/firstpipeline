@@ -11,6 +11,8 @@ env:
 permissions:
   id-token: write
   contents: read
+  security-events: write
+  pull-requests: read
 
 jobs:
   test:
