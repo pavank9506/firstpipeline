@@ -64,10 +64,33 @@ jobs:
     - name: Push Docker Image
       run: docker push pavan095/github_action_docker:latest
 
+    - name: Generate SBOM with Syft
+      uses: anchore/sbom-action@v0
+      with:
+        image: pavan095/github_action_docker:latest
+        format: spdx-json
+        output-file: sbom.spdx.json
+
+    - name: Upload SBOM Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sbom
+        path: sbom.spdx.json
+
+    - name: Run Trivy Vulnerability Scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: pavan095/github_action_docker:latest
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy Results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
-      # with:
-        # cosign-release: 3.10.1
 
     - name: Clear sigstore cache
       run: rm -rf ~/.sigstore ~/.cache/sigstore
