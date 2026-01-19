@@ -38,6 +38,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Generate SBOM for source
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: spdx-json
+          output-file: sbom-source.spdx.json
+
+      - name: Upload SBOM Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-source
+          path: sbom-source.spdx.json
+
       - name: Run Unit Tests
         run: |
           python3 -m unittest test_app.py
