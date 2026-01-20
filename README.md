@@ -1,4 +1,4 @@
-# FirstPipeline - CI/CD with GitHub Actions
+# python - CI/CD with GitHub Actions
 
 A comprehensive CI/CD pipeline project demonstrating Flask application deployment with security scanning, image signing, and Kubernetes orchestration.
 
