@@ -1,0 +1,24 @@
+name: Call Reusable Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+  pull-requests: read
+
+jobs:
+  call-reusable-workflow:
+    uses: pavank9506/resharable-workflow/.github/workflows/test-buld.yaml@main
+    with:
+      app_language: python
+      docker_image_name: pavan095/github_action_docker_python
+      docker_image_tag: 1.0.0
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+
